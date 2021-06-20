@@ -6,13 +6,16 @@ import { Calculated } from './interfaces/calculated.interface';
 @Injectable()
 export class AppService {
 
+  static someVar = null;
+
   constructor(){}
  
   calculateLove(countArray){
+    console.log("----firing from within calculateLove");
     let hold = new Array;
     let newArray =  new Array;
     let returnValue;
-    
+
     if (countArray.length > 2) {
       newArray = countArray.map(function(item, index, newArray) {
         return item + newArray[index + 1];
@@ -26,23 +29,27 @@ export class AppService {
             hold.push(parseInt(item.toString()[1]));
           }
         }
-      });
-      this.calculateLove(hold);
-    } else {
-      returnValue = ((100 - (parseInt(countArray[0] +""+ countArray[1])))/100);
-      console.log(returnValue);
-      return returnValue;     
-    }
+      }); 
+      console.log(AppService.someVar);
+      this.calculateLove(hold);      
+    } else {      
+      AppService.someVar = (((parseInt(countArray[0] +""+ countArray[1])))/100);
+      console.log(AppService.someVar)
+      return AppService.someVar;  
+    }   
+    if(AppService.someVar!=null){
+      return AppService.someVar;
+    }   
   }
 
-  calculateString(nameOne, nameTwo){      
-     
+  async calculateString(nameOne, nameTwo){      
+    console.log("----firing from within calculateString");
     let loves = ["l", "o", "v", "e", "s"];;
     let countArray = new Array;
     let count;
     let names;
     let jointNames;
-    let returnFinalValue;
+    let value;
 
     names = "" + nameOne + "" + nameTwo + ""; 
 
@@ -56,20 +63,18 @@ export class AppService {
       }
       return count;
     });
-    returnFinalValue = this.calculateLove(countArray);
-    console.log("2--------->",returnFinalValue);
-    return returnFinalValue;    
+    value = await this.calculateLove(countArray);
+    console.log("------------2",value);
+    return value;    
   }
 
-  calculateStart(getCalculted:CalculateDto){
-     
-    let calculated;
-    let someValue = this.calculateString(getCalculted.nameOne, getCalculted.nameTwo);
-    calculated = {'value':someValue};
-    return calculated;
+  async calculateStart(getCalculted:CalculateDto): Promise<Calculated>{  
+    console.log("----firing from within calculateStart");
+    return {'value':await this.calculateString(getCalculted.nameOne, getCalculted.nameTwo)};
   }
 
   async getCalculted(getCalculted: CalculateDto): Promise<Calculated> {   
-    return this.calculateStart(getCalculted);
+    console.log("----firing from within getCalculted");
+    return await this.calculateStart(getCalculted);
    }
 }
