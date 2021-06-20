@@ -11,12 +11,11 @@ describe('AppController', () => {
       providers: [AppService],
     }).compile();
   });
-
-  // TODO: Fix
-  // describe('getCalculted', () => {
-  //   it('should return JSON value from 0.0 to 1', () => {
-  //     const appController = app.get<AppController>(AppController);
-  //     expect(appController.culculate()).toBe();
-  //   });
-  // });
+  
+  describe('getCalculted', () => {
+    it('should return JSON value from 0.0 to 1', () => {
+      const appService = app.get<AppService>(AppService);
+      expect(appService.calculateString('James','Mary')).toBe(86);
+    });
+  });
 });
