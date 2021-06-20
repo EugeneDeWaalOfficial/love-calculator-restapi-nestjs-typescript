@@ -15,7 +15,7 @@ describe('AppController', () => {
   describe('getCalculted', () => {
     it('should return JSON value from 0.0 to 1', () => {
       const appService = app.get<AppService>(AppService);
-      expect(appService.calculateString('James','Mary')).toBe(86);
+      expect(appService.calculateString('James','Mary',0.2,true)).toBe(0.86);
     });
   });
 });
