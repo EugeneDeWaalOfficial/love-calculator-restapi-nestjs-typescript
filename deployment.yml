@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{namespace}}
+  labels:
+    app: {{namespace}}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{namespace}}
+  template:
+    metadata:
+      labels:
+        app: {{namespace}}
+    spec:
+      containers:
+        - name: api
+          image: {{image}}
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+      - name: dockerhub

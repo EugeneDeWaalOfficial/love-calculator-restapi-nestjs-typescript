@@ -1,0 +1,14 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    image: navalbase/love-calculator-restapi-nestjs-typescript
+    deploy:
+      replicas: 2
+    labels:
+      kompose.image-pull-secret: "dockerhub"
+    restart: always
+    build: .
+    ports:
+      - "80:80"
+  
